@@ -1,0 +1,60 @@
+version: '3.7'
+
+services:
+
+  phpfpm:
+    build:
+      context: ./phpfpm
+    container_name: phpfpm
+    volumes:
+      - ../apps:/var/www
+      - socket:/var/run
+    networks:
+      - internal
+    restart: always
+
+  nginx:
+    build:
+      context: ./nginx
+    container_name: nginx
+    volumes:
+      - ../apps:/var/www
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./nginx/sites/:/etc/nginx/sites-available
+      - ./nginx/conf.d/:/etc/nginx/conf.d
+      - socket:/var/run
+    ports:
+      - "${WEB_LOCAL_PORT}:80"
+      #- "443:443"
+    depends_on:
+      - phpfpm
+    networks:
+      - internal
+    restart: always
+
+  pgs:
+    build:
+      context: ./pgsql
+    container_name: pgs
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      PGDATA: ${PGDATA}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - "../apps/site.local:/var/www/site.local"
+      - "./pgsql/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d"
+      #- "/var/lib/postgresql/data"
+    ports:
+      - "${POSTGRES_LOCAL_PORT}:5432"
+    networks:
+      - internal
+
+volumes:
+  socket: {}
+
+
+### Networks Setup ############################################
+networks:
+    internal:
+        driver: "bridge"
