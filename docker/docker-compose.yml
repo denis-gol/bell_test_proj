@@ -7,7 +7,7 @@ services:
       context: ./phpfpm
     container_name: phpfpm
     volumes:
-      - ../apps:/var/www
+      - "../apps:/var/www"
       - socket:/var/run
     networks:
       - internal
