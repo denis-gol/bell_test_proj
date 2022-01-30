@@ -76,16 +76,13 @@ RUN wget https://getcomposer.org/installer -O - -q \
 RUN wget https://get.symfony.com/cli/installer -O - | bash
 RUN mv /root/.symfony/bin/symfony /usr/local/bin/symfony
 
-WORKDIR /var/www
+WORKDIR /var/www/site.local
 
 
 
 # @test FOR DEV ONLY !!!
 COPY ./xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
 RUN cp /usr/local/etc/php/php.ini-development /usr/local/etc/php/php.ini
-
-# for PROD use this ini
-#RUN cp /usr/local/etc/php/php.ini-production /usr/local/etc/php/php.ini
 
 
 
