@@ -17,6 +17,10 @@ class AuthorController extends AbstractController
 {
     /**
      * @Route("/create", name="create", methods={"POST"})
+     * @param Request $request
+     * @param EntityManagerInterface $em
+     * @param AuthorRepository $authorRepository
+     * @return Response
      * @throws \Exception
      */
     public function createAuthor(
@@ -25,17 +29,13 @@ class AuthorController extends AbstractController
         AuthorRepository $authorRepository
     ): Response
     {
-        if (!$request->get('name')) {
+        $name = $request->get('name');
+        if ($name === null) {
             throw new \Exception('Not enough parameters in the request');
         }
 
-        // validate param name
-        $name = $request->get('name');
-        if ($authorRepository->findOneBy(['name' => $name]) !== null) {
-            throw new \Exception('The author with this name already exists');
-        }
-
         // create new author
+        // there can be many authors with the same name (!)
         $author = new Author();
         $author->setName($name);
 
