@@ -76,7 +76,7 @@ RUN wget https://getcomposer.org/installer -O - -q \
 RUN wget https://get.symfony.com/cli/installer -O - | bash
 RUN mv /root/.symfony/bin/symfony /usr/local/bin/symfony
 
-WORKDIR /var/www
+WORKDIR /var/www/site.local
 
 
 
