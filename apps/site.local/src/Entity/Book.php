@@ -2,15 +2,15 @@
 
 namespace App\Entity;
 
-use App\Repository\AuthorRepository;
+use App\Repository\BookRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass=AuthorRepository::class)
+ * @ORM\Entity(repositoryClass=BookRepository::class)
  */
-class Author
+class Book
 {
     /**
      * @ORM\Id
@@ -25,13 +25,13 @@ class Author
     private $name;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Book::class, mappedBy="author")
+     * @ORM\ManyToMany(targetEntity=Author::class, inversedBy="books")
      */
-    private $books;
+    private $author;
 
     public function __construct()
     {
-        $this->books = new ArrayCollection();
+        $this->author = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -52,28 +52,25 @@ class Author
     }
 
     /**
-     * @return Collection|Book[]
+     * @return Collection|Author[]
      */
-    public function getBooks(): Collection
+    public function getAuthor(): Collection
     {
-        return $this->books;
+        return $this->author;
     }
 
-    public function addBook(Book $book): self
+    public function addAuthor(Author $author): self
     {
-        if (!$this->books->contains($book)) {
-            $this->books[] = $book;
-            $book->addAuthor($this);
+        if (!$this->author->contains($author)) {
+            $this->author[] = $author;
         }
 
         return $this;
     }
 
-    public function removeBook(Book $book): self
+    public function removeAuthor(Author $author): self
     {
-        if ($this->books->removeElement($book)) {
-            $book->removeAuthor($this);
-        }
+        $this->author->removeElement($author);
 
         return $this;
     }
