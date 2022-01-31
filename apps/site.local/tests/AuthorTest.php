@@ -25,18 +25,20 @@ class AuthorTest extends TestCase
 
     public function testAddBookToAuthor()
     {
-        $book = (new Book())->setName('Лев Толстой');
+        $book = new Book();
+        $book->translate('ru')->setName('Лев Толстой');
         $this->author->addBook($book);
 
         $this->assertEquals(
-            $this->author->getBooks()->first()->getName(),
+            $this->author->getBooks()->first()->translate('ru')->getName(),
             'Лев Толстой'
         );
     }
 
     public function testDeleteBookBelongsAuthor()
     {
-        $book = (new Book())->setName('testname');
+        $book = new Book();
+        $book->translate('ru')->setName('testname');
         $this->author->addBook($book);
 
         $this->author->removeBook($book);
