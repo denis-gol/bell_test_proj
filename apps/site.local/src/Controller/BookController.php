@@ -11,9 +11,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-/**
- * @Route("/book", name="book_")
- */
 class BookController extends AbstractController
 {
     private BookRepository $bookRepository;
@@ -24,7 +21,7 @@ class BookController extends AbstractController
     }
 
     /**
-     * @Route("/create", name="create", methods={"POST"})
+     * @Route("/book/create", name="book_create", methods={"POST"})
      * @param Request $request
      * @param EntityManagerInterface $em
      * @param AuthorRepository $authorRepository
@@ -58,7 +55,9 @@ class BookController extends AbstractController
         // create new book
         // there can be many books with the same name (!)
         $book = new Book();
-        $book->setName($name);
+        $book->translate('ru')->setName($name);
+        $book->mergeNewTranslations();
+
         foreach ($authors as $author) {
             $book->addAuthor($author);
         }
@@ -72,11 +71,12 @@ class BookController extends AbstractController
     }
 
     /**
-     * @Route ("/search", name="search", methods={"GET"})
+     * @Route ("/book/search", name="book_search", methods={"GET"})
      *
      * @return void
+     * @throws \Exception
      */
-    public function searchBook(Request $request, EntityManagerInterface $em): Response
+    public function searchBook(Request $request): Response
     {
         if (!$request->get('name')) {
             throw new \Exception('Not enough parameters in the request');
@@ -88,7 +88,27 @@ class BookController extends AbstractController
         return $this->json([
             $books,
         ]);
+    }
 
+    /**
+     * @Route("{lang<en|ru>}/book/{id}", name="lang_get", methods={"GET"}, requirements={"id"="\d+"})
+     * @param string $lang
+     * @param string $id
+     * @return Response
+     */
+    public function getBookInfoWithEnRuLanguages(
+        string $lang,
+        string $id
+    ): Response {
+
+        $book = $this->bookRepository->findOneBy([
+            'id' => $id
+        ]);
+
+        return $this->json([
+            'Id' => $id,
+            'Name' => $book->translate($lang)->getName() ?? ''
+        ]);
     }
 
 }

@@ -2,13 +2,13 @@
 
 namespace App\DataFixtures;
 
-use App\Entity\Author;
 use App\Entity\Book;
 use App\Repository\AuthorRepository;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Faker\Factory;
 use Faker\Generator;
+use Faker\Provider\ru_RU\Text;
 
 class BookFixtures extends Fixture
 {
@@ -16,12 +16,18 @@ class BookFixtures extends Fixture
     private AuthorRepository $authorRepo;
 
     /** @var Generator  */
-    private Generator $faker;
+    private Generator $fakerRu;
+
+    /** @var Generator  */
+    private Generator $fakerEn;
 
     public function __construct(AuthorRepository $authorRepo)
     {
         $this->authorRepo = $authorRepo;
-        $this->faker = Factory::create('ru_RU');
+        $this->fakerRu = Factory::create('ru_RU');
+        $this->fakerEn = Factory::create('en_US');
+
+        $this->fakerRu->addProvider(new Text($this->fakerRu));
     }
 
     public function load(ObjectManager $manager): void
@@ -29,15 +35,16 @@ class BookFixtures extends Fixture
         $authorCollection = $this->authorRepo->findAll();
         $count = count($authorCollection);
 
-        // f.e. "1 | Война и мир"
-        for ($i = 0; $i < 20; $i++) {
+        for ($i = 0; $i < 10000; $i++) {
             $book = new Book();
 
-            // @todo need russian text provider instead this...
-            $bookName = $this->faker->city() . '. ' . $this->faker->city();
-            $book->setName($bookName);
+            $bookName = $this->fakerRu->realText(rand(10, 20));
+            $book->translate('ru')->setName($bookName);
+            $bookName = $this->fakerEn->realText(rand(10, 20));
+            $book->translate('en')->setName($bookName);
+            $book->mergeNewTranslations();
 
-            $book->addAuthor($authorCollection[rand(0, $count-1)]);
+            $book->addAuthor($authorCollection[rand(0, $count - 1)]);
 
             $manager->persist($book);
         }
@@ -48,7 +55,7 @@ class BookFixtures extends Fixture
     public function getDependencies(): array
     {
         return [
-            BookFixtures::class,
+            AuthorFixtures::class,
         ];
     }
 

@@ -84,6 +84,6 @@ WORKDIR /var/www/site.local
 COPY ./xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
 RUN cp /usr/local/etc/php/php.ini-development /usr/local/etc/php/php.ini
 
-
+COPY ./custom.ini /usr/local/etc/php/conf.d/custom.ini
 
 CMD ["php-fpm"]
