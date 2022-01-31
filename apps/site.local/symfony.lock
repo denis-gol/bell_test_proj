@@ -1,7 +1,4 @@
 {
-    "behat/transliterator": {
-        "version": "v1.3.0"
-    },
     "doctrine/annotations": {
         "version": "1.13",
         "recipe": {
@@ -102,9 +99,6 @@
     },
     "friendsofphp/proxy-manager-lts": {
         "version": "v1.0.5"
-    },
-    "gedmo/doctrine-extensions": {
-        "version": "v3.4.0"
     },
     "laminas/laminas-code": {
         "version": "4.5.1"
@@ -390,6 +384,9 @@
             "config/packages/routing.yaml",
             "config/routes.yaml"
         ]
+    },
+    "symfony/security-core": {
+        "version": "v5.2.14"
     },
     "symfony/service-contracts": {
         "version": "v2.5.0"
