@@ -14,7 +14,7 @@ class AuthorFixtures extends Fixture
         $faker = Factory::create('ru_RU');
 
         // f.e. "1 | Лев Толстой"
-        for ($i = 0; $i < 20; $i++) {
+        for ($i = 0; $i < 10000; $i++) {
             $author = new Author();
             $authorName = $faker->firstName(). ' '. $faker->lastName();
 
