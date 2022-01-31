@@ -95,6 +95,7 @@ class BookController extends AbstractController
      * @param string $lang
      * @param string $id
      * @return Response
+     * @throws \Exception
      */
     public function getBookInfoWithEnRuLanguages(
         string $lang,
@@ -104,6 +105,10 @@ class BookController extends AbstractController
         $book = $this->bookRepository->findOneBy([
             'id' => $id
         ]);
+
+        if ($book === null) {
+            throw new \Exception('Book not exists');
+        }
 
         return $this->json([
             'Id' => $id,
