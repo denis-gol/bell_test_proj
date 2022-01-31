@@ -1,4 +1,7 @@
 {
+    "brick/math": {
+        "version": "0.9.3"
+    },
     "doctrine/annotations": {
         "version": "1.13",
         "recipe": {
@@ -100,11 +103,17 @@
     "friendsofphp/proxy-manager-lts": {
         "version": "v1.0.5"
     },
+    "knplabs/doctrine-behaviors": {
+        "version": "2.2.0"
+    },
     "laminas/laminas-code": {
         "version": "4.5.1"
     },
     "myclabs/deep-copy": {
         "version": "1.10.2"
+    },
+    "nette/utils": {
+        "version": "v3.2.7"
     },
     "nikic/php-parser": {
         "version": "v4.13.2"
@@ -167,6 +176,12 @@
     },
     "psr/log": {
         "version": "1.1.4"
+    },
+    "ramsey/collection": {
+        "version": "1.2.2"
+    },
+    "ramsey/uuid": {
+        "version": "4.2.3"
     },
     "sebastian/cli-parser": {
         "version": "1.0.1"
@@ -371,6 +386,12 @@
     "symfony/polyfill-php81": {
         "version": "v1.24.0"
     },
+    "symfony/property-access": {
+        "version": "v5.2.12"
+    },
+    "symfony/property-info": {
+        "version": "v5.2.12"
+    },
     "symfony/routing": {
         "version": "5.2",
         "recipe": {
@@ -385,8 +406,29 @@
             "config/routes.yaml"
         ]
     },
+    "symfony/security-bundle": {
+        "version": "5.2",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "5.1",
+            "ref": "0a4bae19389d3b9cba1ca0102e3b2bccea724603"
+        },
+        "files": [
+            "config/packages/security.yaml"
+        ]
+    },
     "symfony/security-core": {
         "version": "v5.2.14"
+    },
+    "symfony/security-csrf": {
+        "version": "v5.2.12"
+    },
+    "symfony/security-guard": {
+        "version": "v5.2.12"
+    },
+    "symfony/security-http": {
+        "version": "v5.2.12"
     },
     "symfony/service-contracts": {
         "version": "v2.5.0"
@@ -396,6 +438,9 @@
     },
     "symfony/string": {
         "version": "v5.2.11"
+    },
+    "symfony/translation-contracts": {
+        "version": "v2.5.0"
     },
     "symfony/var-dumper": {
         "version": "v5.2.12"
