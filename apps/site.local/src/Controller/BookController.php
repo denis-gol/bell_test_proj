@@ -55,7 +55,9 @@ class BookController extends AbstractController
         // create new book
         // there can be many books with the same name (!)
         $book = new Book();
-        $book->setName($name);
+        $book->translate('ru')->setName($name);
+        $book->mergeNewTranslations();
+
         foreach ($authors as $author) {
             $book->addAuthor($author);
         }
@@ -72,8 +74,9 @@ class BookController extends AbstractController
      * @Route ("/book/search", name="book_search", methods={"GET"})
      *
      * @return void
+     * @throws \Exception
      */
-    public function searchBook(Request $request, EntityManagerInterface $em): Response
+    public function searchBook(Request $request): Response
     {
         if (!$request->get('name')) {
             throw new \Exception('Not enough parameters in the request');
@@ -85,29 +88,27 @@ class BookController extends AbstractController
         return $this->json([
             $books,
         ]);
-
     }
 
     /**
-     * @Route("{lang<en|ru>}/book/{id}", name="lang_get", methods={"GET"})
-     * @param Request $request
-     * @param EntityManagerInterface $em
+     * @Route("{lang<en|ru>}/book/{id}", name="lang_get", methods={"GET"}, requirements={"id"="\d+"})
      * @param string $lang
      * @param string $id
      * @return Response
      */
     public function getBookInfoWithEnRuLanguages(
-        Request $request,
-        EntityManagerInterface $em,
         string $lang,
         string $id
     ): Response {
 
+        $book = $this->bookRepository->findOneBy([
+            'id' => $id
+        ]);
 
         return $this->json([
-
+            'Id' => $id,
+            'Name' => $book->translate($lang)->getName() ?? ''
         ]);
     }
-
 
 }

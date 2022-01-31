@@ -26,6 +26,11 @@ class BookTranslation implements TranslationInterface
      */
     private $name;
 
+    /**
+     * @ORM\Column(type="integer", length=255)
+     */
+    private $translatable_id;
+
     public function getId(): ?int
     {
         return $this->id;
