@@ -11,9 +11,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-/**
- * @Route("/book", name="book_")
- */
 class BookController extends AbstractController
 {
     private BookRepository $bookRepository;
@@ -24,7 +21,7 @@ class BookController extends AbstractController
     }
 
     /**
-     * @Route("/create", name="create", methods={"POST"})
+     * @Route("/book/create", name="book_create", methods={"POST"})
      * @param Request $request
      * @param EntityManagerInterface $em
      * @param AuthorRepository $authorRepository
@@ -72,7 +69,7 @@ class BookController extends AbstractController
     }
 
     /**
-     * @Route ("/search", name="search", methods={"GET"})
+     * @Route ("/book/search", name="book_search", methods={"GET"})
      *
      * @return void
      */
@@ -90,5 +87,27 @@ class BookController extends AbstractController
         ]);
 
     }
+
+    /**
+     * @Route("{lang<en|ru>}/book/{id}", name="lang_get", methods={"GET"})
+     * @param Request $request
+     * @param EntityManagerInterface $em
+     * @param string $lang
+     * @param string $id
+     * @return Response
+     */
+    public function getBookInfoWithEnRuLanguages(
+        Request $request,
+        EntityManagerInterface $em,
+        string $lang,
+        string $id
+    ): Response {
+
+
+        return $this->json([
+
+        ]);
+    }
+
 
 }
